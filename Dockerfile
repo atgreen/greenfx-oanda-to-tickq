@@ -11,8 +11,8 @@ RUN useradd oanda
 ADD src /home/oanda/src
 RUN (cd /home/oanda/src; make)
 
-# CMD su - oanda -c '(env > /data/env.txt; cd /home/oanda/src; bash; ./ticks-oanda)'
-CMD sleep 2h
+CMD su - oanda -c '(env > /data/env.txt; cd /home/oanda/src; bash; ./ticks-oanda)'
+
 
 
 
