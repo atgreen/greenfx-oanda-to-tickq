@@ -9,7 +9,7 @@ RUN yum install -y libcurl-devel activemq-cpp-devel json-c-devel make gcc-c++ &&
 
 RUN useradd oanda
 ADD src /home/oanda/src
-RUN (cd /home/oanda/src; make; cp ticks-oanda /)
+RUN (cd /home/oanda/src; make; cp * /)
 
 # CMD su - oanda -c '(env > /env.txt; cd /home/oanda/src; ./ticks-oanda)'
 CMD sleep 5h
