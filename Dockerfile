@@ -7,6 +7,9 @@ RUN yum install -y \
         https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
 RUN yum install -y libcurl-devel activemq-cpp-devel json-c-devel make gcc-c++ && yum clean all
 
+# Install dev tools....
+RUN yum install -y emacs gdb git
+
 RUN useradd oanda
 ADD src /home/oanda/src
 RUN (cd /home/oanda/src; make; cp * /)
