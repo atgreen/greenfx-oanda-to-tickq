@@ -96,12 +96,23 @@ static size_t httpCallback(void *contents, size_t size, size_t nmemb, void *user
   return size * nmemb;
 }
 
+char *getenv_checked (const char *e)
+{
+  char *v = getenv (e);
+  if (!v)
+    {
+      fprintf (stderr, "ERROR: environment variable '%s' not set.", e);
+      exit (1);
+    }
+
+  return v;
+}
+
 void config()
 {
-  domain = getenv ("OANDA_STREAM_DOMAIN");
-  accessToken = getenv ("OANDA_ACCESS_TOKEN");
-  accounts = getenv ("OANDA_ACCOUNT_ID");
-  
+  domain = getenv_checked ("OANDA_STREAM_DOMAIN");
+  accessToken = getenv_checked ("OANDA_ACCESS_TOKEN");
+  accounts = getenv_checked ("OANDA_ACCOUNT_ID");
 }
 
 int main(void)
@@ -112,10 +123,12 @@ int main(void)
   char url[100];
   struct curl_slist *chunk = NULL;
 
-  string brokerURI = getenv ("GREENFX_AMQ_TCP_PORT_61616_TCP");
+  string brokerURI = getenv_checked ("GREENFX_AMQ_TCP_PORT_61616_TCP");
   Connection *connection;
   Destination *destination;
 
+  config();
+  
   openlog ("oanda-ticks", LOG_CONS | LOG_PID | LOG_NDELAY, LOG_LOCAL1);
 
   syslog (LOG_NOTICE, "Program started by User %d", getuid());
@@ -129,8 +142,8 @@ int main(void)
       connectionFactory(ConnectionFactory::createCMSConnectionFactory(brokerURI));
 
     // Create a Connection
-    connection = connectionFactory->createConnection(getenv("AMQ_USER"),
-						     getenv("AMQ_PASSWORD"));
+    connection = connectionFactory->createConnection(getenv_checked ("AMQ_USER"),
+						     getenv_checked ("AMQ_PASSWORD"));
     connection->start();
 
     syslog (LOG_NOTICE, "A");
