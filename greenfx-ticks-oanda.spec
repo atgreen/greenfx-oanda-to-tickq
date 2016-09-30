@@ -6,23 +6,24 @@ Summary:	Collect and publish ticks from Oanda
 Group:	        Applications
 License:	GPL
 URL:		http://github.com/atgreen/greenfx-ticks-oanda
-Source0:	main.cc
+Source0:	greenfx-ticks-oanda-1.0.tar.gz
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires:  libcurl-devel activemq-cpp-devel json-c-devel
 
 %description
 Collect and public ticks from Oanda.
 
-%prep
-cp %{SOURCE0} .
+%prep 
+%setup -q
 
 %build
-g++ -O3 -g -o ticks-oanda main.cc `pkg-config activemq-cpp --cflags` -lcurl `pkg-config activemq-cpp --libs` -ljson-c
+autoreconf
+%configure
+make %{?_smp_mflags}
 
 %install
 rm -rf $RPM_BUILD_ROOT
-mkdir -p $RPM_BUILD_ROOT%{_bindir}
-cp ticks-oanda $RPM_BUILD_ROOT%{_bindir}
+make install DESTDIR=$RPM_BUILD_ROOT
 
 %clean
 rm -rf $RPM_BUILD_ROOT
