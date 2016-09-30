@@ -19,3 +19,6 @@ greenfx-ticks-oanda-1.0.tar.gz
 install-sh
 missing
 stamp-h1
+ticks-oanda
+ticks-oanda.o
+
