@@ -1,6 +1,6 @@
 FROM docker.io/centos:7
 
-MAINTAINER green@moxielogic.org
+MAINTAINER anthony@atgreen.org
 
 RUN yum -y install \
     rpm-build gcc-c++ gcc make patch \

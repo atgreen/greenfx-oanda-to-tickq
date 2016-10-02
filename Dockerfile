@@ -1,8 +1,9 @@
 FROM docker.io/centos:7
 
-MAINTAINER green@moxielogic.org
+MAINTAINER anthony@atgreen.org
 
 ADD *.rpm .
+
 RUN rpm -ihv *.rpm
 
 
