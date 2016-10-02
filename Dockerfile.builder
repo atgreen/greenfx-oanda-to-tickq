@@ -8,5 +8,5 @@ RUN rpm -ivh http://dl.fedoraproject.org/pub/epel/7/x86_64/e/epel-release-7-8.no
                 libcurl-devel activemq-cpp-devel json-c-devel \
 	        autoreconf autoconf automake
 
-CMD cd /opt && autoreconf && ./configure && make dist && rpmbuild -ba --define _topdir /opt greenfx-ticks-oanda.spec
+CMD cd /opt && autoreconf --install && ./configure && make dist && rpmbuild -ba --define _topdir /opt greenfx-ticks-oanda.spec
 
