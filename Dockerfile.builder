@@ -9,5 +9,5 @@ RUN rpm -ivh http://dl.fedoraproject.org/pub/epel/7/x86_64/e/epel-release-7-8.no
       autoconf automake && \
     mkdir -p /root/rpmbuild/SOURCES
 
-CMD cd /opt && autoreconf --install && ./configure && make dist && ls -l && mv greenfx-ticks-oanda-1.0.tar.gz /root/rpmbuild/SOURCES && cat greenfx-ticks-oanda.spec && rpmbuild -ba greenfx-ticks-oanda.spec
+CMD cd /opt && autoreconf --install && ./configure && make dist && chown -R root.root && ls -l && mv greenfx-ticks-oanda-1.0.tar.gz /root/rpmbuild/SOURCES && cat greenfx-ticks-oanda.spec && rpmbuild -ba greenfx-ticks-oanda.spec
 
