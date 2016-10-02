@@ -8,8 +8,13 @@ services:
 before_install:
   - docker build -f Dockerfile.builder -t atgreen/greenfx-ticks-oanda-builder .
   - docker run -t -v `pwd`:/opt atgreen/greenfx-ticks-oanda-builder
-  - ls -lrt
   - docker build -f Dockerfile -t atgreen/greenfx-ticks-oanda .
 
 script:
 - 
+
+after_success:
+  - if [ "$TRAVIS_BRANCH" == "master" ]; then
+    docker login -e="$DOCKER_EMAIL" -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD";
+    docker push USER/REPO;
+    fi
