@@ -7,5 +7,5 @@ RUN yum -y install \
               libcurl-devel activemq-cpp-devel json-c-devel \
 	      autoreconf autoconf automake
 
-CMD cd /opt && autoreconf && ./configure && make dist && rpmbuild -ba --define _topdir /opt greenfx-ticks-oanda.spec
+CMD cd /opt && autoreconf --install && ./configure && make dist && rpmbuild -ba --define _topdir /opt greenfx-ticks-oanda.spec
 
