@@ -3,6 +3,7 @@ BUILD
 BUILDROOT
 SPECS
 .deps
+Makefile
 Makefile.in
 RPMS
 SOURCES
