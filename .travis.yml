@@ -8,6 +8,7 @@ services:
 before_install:
   - docker build -f Dockerfile.builder -t atgreen/greenfx-ticks-oanda-builder .
   - docker run -t -v `pwd`:/opt atgreen/greenfx-ticks-oanda-builder
+  - ls -lrt
   - docker build -f Dockerfile -t atgreen/greenfx-ticks-oanda .
 
 script:
