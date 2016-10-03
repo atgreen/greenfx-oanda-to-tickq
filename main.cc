@@ -132,8 +132,6 @@ int main(void)
 
   config();
   
-  openlog ("oanda-ticks", LOG_CONS | LOG_PID | LOG_NDELAY, LOG_LOCAL1);
-
   printf ("Program started by User %d\n", getuid());
 
   activemq::library::ActiveMQCPP::initializeLibrary();
@@ -168,7 +166,7 @@ int main(void)
 	       "Authorization: Bearer %s", accessToken) >= 100)
     exit(1);
   if (snprintf(url, 100, 
-	       "%s/v1/prices?accountIds=%s&instruments=USD_CAD", 
+	       "%s/v1/prices?accountId=%s&instruments=USD_CAD", 
 	       domain, accounts) >= 100)
     exit(1);
 
