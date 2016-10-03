@@ -74,7 +74,7 @@ static size_t httpCallback(void *contents, size_t size, size_t nmemb, void *user
       
       if (json_object_object_get_ex (jobj, "tick", NULL))
 	{
-	  syslog (LOG_NOTICE, "%s", mem->memory); 
+	  printf ("%s\n", mem->memory); 
 #if 0
 	  std::auto_ptr<TextMessage> message(session->createTextMessage(mem->memory));
 	  producer->send(message.get());
@@ -83,7 +83,7 @@ static size_t httpCallback(void *contents, size_t size, size_t nmemb, void *user
       else
 	{
 	  if (! json_object_object_get_ex (jobj, "heartbeat", NULL))
-	    syslog (LOG_ERR, "Unrecognized data from OANDA: %s", mem->memory);
+	    fprintf (stderr, "Unrecognized data from OANDA: %s\n", mem->memory);
 	}
       eol++; length++;
       while (*eol == '\n' || *eol == '\r')
@@ -103,7 +103,7 @@ char *getenv_checked (const char *e)
   char *v = getenv (e);
   if (!v)
     {
-      fprintf (stderr, "ERROR: environment variable '%s' not set.", e);
+      fprintf (stderr, "ERROR: environment variable '%s' not set.\n", e);
       exit (1);
     }
 
@@ -134,7 +134,7 @@ int main(void)
   
   openlog ("oanda-ticks", LOG_CONS | LOG_PID | LOG_NDELAY, LOG_LOCAL1);
 
-  syslog (LOG_NOTICE, "Program started by User %d", getuid());
+  printf ("Program started by User %d\n", getuid());
 
   activemq::library::ActiveMQCPP::initializeLibrary();
 
@@ -150,8 +150,6 @@ int main(void)
 						     getenv_checked ("AMQ_PASSWORD"));
     connection->start();
 
-    syslog (LOG_NOTICE, "A");
-      
     session = connection->createSession(Session::AUTO_ACKNOWLEDGE);
     destination = session->createTopic("OANDA.TICK");
 
@@ -161,7 +159,7 @@ int main(void)
 
   } catch (CMSException& e) {
 
-    syslog (LOG_ERR, e.getStackTraceString().c_str());
+    fprintf (stderr, "%s\n", e.getStackTraceString().c_str());
     exit (1);
 
   }
@@ -174,7 +172,7 @@ int main(void)
 	       domain, accounts) >= 100)
     exit(1);
 
-  syslog (LOG_NOTICE, ">> %s", url);
+  printf (">> %s\n", url);
 
   struct MemoryStruct mchunk;
   mchunk.memory = (char *) malloc(1);
@@ -193,11 +191,11 @@ int main(void)
   /* check for errors */ 
   if(res != CURLE_OK) 
     {
-      syslog (LOG_ERR, "curl_easy_perform() failed: %s", curl_easy_strerror(res));
+      fprintf (stderr, "curl_easy_perform() failed: %s\n", curl_easy_strerror(res));
     }
   else 
     {
-      syslog (LOG_NOTICE, "disconnected from stream");
+      printf ("Disconnected from stream\n");
     }
 
   /* cleanup curl stuff */ 
@@ -206,7 +204,7 @@ int main(void)
   /* we're done with libcurl, so clean it up */ 
   curl_global_cleanup();
 
-  syslog (LOG_NOTICE, "Program ended");
+  printf ("Program ended\n");
 
   return 0;
 }
