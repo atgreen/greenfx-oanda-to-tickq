@@ -75,8 +75,10 @@ static size_t httpCallback(void *contents, size_t size, size_t nmemb, void *user
       if (json_object_object_get_ex (jobj, "tick", NULL))
 	{
 	  syslog (LOG_NOTICE, "%s", mem->memory); 
+#if 0
 	  std::auto_ptr<TextMessage> message(session->createTextMessage(mem->memory));
 	  producer->send(message.get());
+#endif
 	}
       else
 	{
@@ -139,6 +141,7 @@ int main(void)
   try {
       
     // Create a ConnectionFactory
+#if 0
     std::auto_ptr<ConnectionFactory> 
       connectionFactory(ConnectionFactory::createCMSConnectionFactory("tcp://127.0.0.1:61616?wireFormat=openwire"));
 
@@ -154,6 +157,7 @@ int main(void)
 
     producer = session->createProducer(destination);
     producer->setDeliveryMode(DeliveryMode::NON_PERSISTENT);
+#endif
 
   } catch (CMSException& e) {
 
