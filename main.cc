@@ -123,9 +123,10 @@ int main(void)
   char url[100];
   struct curl_slist *chunk = NULL;
 
-  string brokerURI = getenv_checked ("GREENFX_AMQ_TCP_PORT_61616_TCP");
   Connection *connection;
   Destination *destination;
+
+  std::cout << "ticks-oanda, Copyright (C) 2014, 2016  Anthony Green" << std::endl;
 
   config();
   
@@ -139,7 +140,7 @@ int main(void)
       
     // Create a ConnectionFactory
     std::auto_ptr<ConnectionFactory> 
-      connectionFactory(ConnectionFactory::createCMSConnectionFactory(brokerURI));
+      connectionFactory(ConnectionFactory::createCMSConnectionFactory("tcp://127.0.0.1:61616?wireFormat=openwire"));
 
     // Create a Connection
     connection = connectionFactory->createConnection(getenv_checked ("AMQ_USER"),
