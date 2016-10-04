@@ -55,46 +55,70 @@ static void fatal (const char *msg)
 static size_t httpCallback(void *contents, size_t size, size_t nmemb, void *userp)
 {
   struct MemoryStruct *mem = (struct MemoryStruct *) userp;
-  mem->memory = (char *) realloc (mem->memory, mem->size + (size * nmemb) + 1);
-  if (mem->memory == NULL)
+  char *ptr;
+  int start, end;
+
+  // Allocate new space for our buffer...
+  mem->memory = ptr = (char *) realloc (mem->memory, mem->size + (size * nmemb));
+  if (ptr == NULL)
     fatal ("Out of memory");
   
-  memcpy (&(mem->memory[mem->size]), contents, size * nmemb);
+  // Copy the new data to the end of our buffer...
+  memcpy (&(ptr[mem->size - 1]), contents, size * nmemb);
   mem->size += size * nmemb;
-  mem->memory[mem->size] = 0;
-  int length;
-  char *eol = strchr(mem->memory, '\r');
+  ptr[mem->size - 1] = 0;
 
-  while (eol)
+  do
     {
-      length = eol - mem->memory;
-      *eol = 0;
+      // Scan for json delimiters
+      int start = 0, brace = 0, end;
+      while (ptr[start] && ptr[start] != '{') start++;
+      if (ptr[start] == 0)
+	return size * nmemb;;
+      end = start;
+      do {
+	switch (ptr[end])
+	  {
+	  case 0: // incomplete. wait for more.
+	    return size * nmemb;
+	  case '{': brace++; break;
+	  case '}': brace--; break;
+	  default: break;
+	  }
+	end++;
+      } while (brace != 0);
 
-      json_object *jobj = json_tokener_parse (mem->memory);
+      // Temporatily NULL terminate the substring, and parse the json.
+      char oldc = ptr[end];
+      ptr[end] = 0;
+      json_object *jobj = json_tokener_parse (&ptr[start]);
       
       if (json_object_object_get_ex (jobj, "tick", NULL))
 	{
-	  printf ("%s\n", mem->memory); 
+	  printf ("%s\n", &ptr[start]); 
 #if 0
-	  std::auto_ptr<TextMessage> message(session->createTextMessage(mem->memory));
+	  std::auto_ptr<TextMessage> message(session->createTextMessage(ptr));
 	  producer->send(message.get());
 #endif
 	}
       else
 	{
 	  if (! json_object_object_get_ex (jobj, "heartbeat", NULL))
-	    fprintf (stderr, "Unrecognized data from OANDA: %s\n", mem->memory);
+	    fprintf (stderr, "Unrecognized data from OANDA: %s\n", &ptr[start]);
 	}
-      eol++; length++;
-      while (*eol == '\n' || *eol == '\r')
-	{ eol++; length++; }
-      
-      mem->size -= length;
-      memcpy (mem->memory, eol, mem->size);
 
-      eol = strchr(mem->memory, '\r');
-    }
+      json_object_put (jobj);
+  
+      // Restore the character we temporarily NULLd
+      ptr[end] = oldc;
 
+      // Copy the rest back to the beginning and try again.
+      memmove (mem->memory,
+	       &ptr[end], 
+	       mem->size - end);
+      mem->size -= end;
+    } while (mem->size > 0);
+  
   return size * nmemb;
 }
 
@@ -166,7 +190,7 @@ int main(void)
 	       "Authorization: Bearer %s", accessToken) >= 100)
     exit(1);
   if (snprintf(url, 100, 
-	       "%s/v1/prices?accountId=%s&instruments=USD_CAD", 
+	       "%s/v1/prices?accountId=%s&instruments=USD_CAD,GBP_USD,EUR_JPY", 
 	       domain, accounts) >= 100)
     exit(1);
 
@@ -174,7 +198,8 @@ int main(void)
 
   struct MemoryStruct mchunk;
   mchunk.memory = (char *) malloc(1);
-  mchunk.size = 0;
+  *(mchunk.memory) = 0;
+  mchunk.size = 1;
 
   curl_global_init(CURL_GLOBAL_ALL);
 
