@@ -95,16 +95,16 @@ static size_t httpCallback(void *contents, size_t size, size_t nmemb, void *user
       
       if (json_object_object_get_ex (jobj, "tick", NULL))
 	{
-	  printf ("%s\n", &ptr[start]); 
-#if 0
+	  printf (".");
 	  std::auto_ptr<TextMessage> message(session->createTextMessage(ptr));
 	  producer->send(message.get());
-#endif
 	}
       else
 	{
 	  if (! json_object_object_get_ex (jobj, "heartbeat", NULL))
 	    fprintf (stderr, "Unrecognized data from OANDA: %s\n", &ptr[start]);
+	  else
+	    printf ("-");
 	}
 
       json_object_put (jobj);
@@ -163,9 +163,8 @@ int main(void)
   try {
       
     // Create a ConnectionFactory
-#if 0
     std::auto_ptr<ConnectionFactory> 
-      connectionFactory(ConnectionFactory::createCMSConnectionFactory("tcp://127.0.0.1:61616?wireFormat=openwire"));
+      connectionFactory(ConnectionFactory::createCMSConnectionFactory("tcp://broker-amq-tcp:61616?wireFormat=openwire"));
 
     // Create a Connection
     connection = connectionFactory->createConnection(getenv_checked ("AMQ_USER"),
@@ -177,7 +176,6 @@ int main(void)
 
     producer = session->createProducer(destination);
     producer->setDeliveryMode(DeliveryMode::NON_PERSISTENT);
-#endif
 
   } catch (CMSException& e) {
 
