@@ -16,5 +16,3 @@ CMD cd /opt && autoreconf --install && \
     mv greenfx-ticks-oanda-1.0.tar.gz /root/rpmbuild/SOURCES && \
     rpmbuild -ba greenfx-ticks-oanda.spec && \
     mv /root/rpmbuild/RPMS/x86_64/*.rpm /opt
-
-

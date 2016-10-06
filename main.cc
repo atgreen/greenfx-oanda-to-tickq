@@ -8,11 +8,11 @@
 //
 // --------------------------------------------------------------------------
 
-// Copyright (C) 2014, 2016  Anthony Green <green@spindazzle.org>
+// Copyright (C) 2014, 2016 Anthony Green <green@spindazzle.org>
 // Distrubuted under the terms of the GPL v3 or later.
 
-// This progam is responsible for publishing OANDA currency exchange ticks
-// through an ActiveMQ message broker.
+// This progam is responsible for publishing OANDA currency exchange
+// ticks through an ActiveMQ message broker.
 
 #include <cstdlib>
 #include <memory>
@@ -48,7 +48,7 @@ struct MemoryStruct {
 
 static void fatal (const char *msg)
 {
-  syslog (LOG_ERR, msg);
+  fprintf (stderr, "%s\n", msg);
   exit (1);
 }
 
@@ -228,4 +228,3 @@ int main(void)
 
   return 0;
 }
-

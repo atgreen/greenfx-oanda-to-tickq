@@ -4,12 +4,9 @@ MAINTAINER anthony@atgreen.org
 
 RUN rpm -ivh http://dl.fedoraproject.org/pub/epel/7/x86_64/e/epel-release-7-8.noarch.rpm
 ADD greenfx-ticks-oanda-1.0-0.1.x86_64.rpm /tmp
-ADD krb5.conf /etc/krb5.conf
 RUN yum install -y /tmp/greenfx-ticks-oanda-1.0-0.1.x86_64.rpm && \
-    yum install -y krb5-workstation ipa-admintools && \
-    yum clean all
+    yum clean all && \
+    rm /tmp/*.rpm
 
 USER 1001
 CMD ticks-oanda
-
-
