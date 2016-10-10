@@ -10,6 +10,8 @@ ADD nssdb.tar.gz /nssdb.tar.gz
 RUN yum install -y /tmp/greenfx-ticks-oanda-1.0-0.1.x86_64.rpm && \
     yum install -y krb5-workstation ipa-admintools && \
     yum clean all && \
+    ls -l / && \
+    tar tvf /nssdb.tar.gz && \
     (cd /; tar xvfz /nssdb.tar.gz) && \
     rm /tmp/*.rpm /nssdb.tar.gz
 
