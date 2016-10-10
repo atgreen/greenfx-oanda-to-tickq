@@ -20,6 +20,4 @@ CMD cd /opt && autoreconf --install && \
     rpmbuild -ba greenfx-ticks-oanda.spec && \
     mv /root/rpmbuild/RPMS/x86_64/*.rpm /opt && \
     /root/prepare-NSS-db.sh && \
-    tar cvfz /etc/ipa/nssdb /opt/nssdb.tar.gz
-
-
+    tar cvfz /opt/nssdb.tar.gz /etc/ipa/nssdb
