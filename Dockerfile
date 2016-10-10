@@ -6,7 +6,7 @@ RUN rpm -ivh http://dl.fedoraproject.org/pub/epel/7/x86_64/e/epel-release-7-8.no
 ADD greenfx-ticks-oanda-1.0-0.1.x86_64.rpm /tmp
 ADD krb5.conf /etc/krb5.conf
 ADD default.conf /etc/ipa/default.conf
-ADD nssdb.tar.gz /nssdb.tar.gz
+ADD nssdb.tar.gz /etc
 RUN yum install -y /tmp/greenfx-ticks-oanda-1.0-0.1.x86_64.rpm && \
     yum install -y krb5-workstation ipa-admintools && \
     yum clean all && \
