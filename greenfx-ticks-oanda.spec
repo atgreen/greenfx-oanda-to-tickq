@@ -11,7 +11,7 @@ BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires:  libcurl-devel activemq-cpp-devel json-c-devel
 
 %description
-Collect and public ticks from Oanda.
+Collect and publish ticks from Oanda.
 
 %prep 
 %setup -q
@@ -20,6 +20,13 @@ Collect and public ticks from Oanda.
 autoreconf
 %configure
 make %{?_smp_mflags}
+
+%pre
+getent group greenfx >/dev/null || groupadd -r greenfx
+getent passwd greenfx >/dev/null || \
+    useradd -r -m -g greenfx -d /var/lib/greenfx -s /sbin/nologin \
+    -c "GreenFX Service Account" greenfx
+exit 0
 
 %install
 rm -rf $RPM_BUILD_ROOT
@@ -33,5 +40,5 @@ rm -rf $RPM_BUILD_ROOT
 %{_bindir}/*
 
 %changelog
-* Thu Sep 29 2016 Anthony Green <green@moxielogic.com> 1.0-1
+* Thu Sep 29 2016 Anthony Green <anthony@atgreen.org> 1.0-1
 - Created.
