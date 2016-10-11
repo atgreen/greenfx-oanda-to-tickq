@@ -34,6 +34,8 @@ using namespace activemq;
 using namespace cms;
 using namespace std;
 
+#define AMQ_URL "tcp://broker-amq-tcp:61616?wireFormat=openwire"
+
 static char *domain;
 static char *accessToken;
 static char *accounts;
@@ -56,7 +58,14 @@ static size_t httpCallback(void *contents, size_t size, size_t nmemb, void *user
 {
   struct MemoryStruct *mem = (struct MemoryStruct *) userp;
   char *ptr;
-
+  static bool first_connect = true;
+  
+  if (first_connect)
+    {
+      std::cout << "SUCCESS" << std::endl;
+      first_connect = false;
+    }
+  
   // Allocate new space for our buffer...
   mem->memory = ptr = (char *) realloc (mem->memory, mem->size + (size * nmemb));
   if (ptr == NULL)
@@ -148,7 +157,7 @@ int main(void)
   Connection *connection;
   Destination *destination;
 
-  std::cout << "ticks-oanda, Copyright (C) 2014, 2016  Anthony Green" << std::endl;
+  std::cout << GFX_VERSION_STR " Copyright (C) 2014, 2016  Anthony Green\n" << std::endl;
 
   config();
   
@@ -156,11 +165,13 @@ int main(void)
 
   activemq::library::ActiveMQCPP::initializeLibrary();
 
+  std::cout << "Connecting to " AMQ_URL " : ";
+
   try {
       
     // Create a ConnectionFactory
     std::auto_ptr<ConnectionFactory> 
-      connectionFactory(ConnectionFactory::createCMSConnectionFactory("tcp://broker-amq-tcp:61616?wireFormat=openwire"));
+      connectionFactory(ConnectionFactory::createCMSConnectionFactory(AMQ_URL));
 
     // Create a Connection
     connection = connectionFactory->createConnection(getenv_checked ("AMQ_USER"),
@@ -175,20 +186,22 @@ int main(void)
 
   } catch (CMSException& e) {
 
-    fprintf (stderr, "%s\n", e.getStackTraceString().c_str());
+    std::cout << "FAILED" << std::endl;
+    // This seems to always print "Success".
+    // std::cout << e.getMessage() << std::endl;
     exit (1);
-
   }
 
   if (snprintf(authHeader, 100, 
 	       "Authorization: Bearer %s", accessToken) >= 100)
     exit(1);
+					 
   if (snprintf(url, 100, 
 	       "%s/v1/prices?accountId=%s&instruments=USD_CAD,GBP_USD,EUR_JPY", 
 	       domain, accounts) >= 100)
     exit(1);
 
-  printf (">> %s\n", url);
+  std::cout << "SUCCESS\nConnecting to " << url << " : ";
 
   struct MemoryStruct mchunk;
   mchunk.memory = (char *) malloc(1);
