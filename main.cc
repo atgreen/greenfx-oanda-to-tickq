@@ -94,7 +94,6 @@ static size_t httpCallback(void *contents, size_t size, size_t nmemb, void *user
       
       if (json_object_object_get_ex (jobj, "tick", NULL))
 	{
-	  printf (".");
 	  std::auto_ptr<TextMessage> message(session->createTextMessage(ptr));
 	  producer->send(message.get());
 	}
@@ -102,8 +101,6 @@ static size_t httpCallback(void *contents, size_t size, size_t nmemb, void *user
 	{
 	  if (! json_object_object_get_ex (jobj, "heartbeat", NULL))
 	    fprintf (stderr, "Unrecognized data from OANDA: %s\n", &ptr[start]);
-	  else
-	    printf ("-");
 	}
 
       json_object_put (jobj);
