@@ -57,6 +57,9 @@ static size_t httpCallback(void *contents, size_t size, size_t nmemb, void *user
   struct MemoryStruct *mem = (struct MemoryStruct *) userp;
   char *ptr;
 
+  printf (".");
+  fflush (stdout);
+
   // Allocate new space for our buffer...
   mem->memory = ptr = (char *) realloc (mem->memory, mem->size + (size * nmemb));
   if (ptr == NULL)
