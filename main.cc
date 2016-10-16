@@ -103,9 +103,13 @@ static size_t httpCallback(void *contents, size_t size, size_t nmemb, void *user
       char oldc = ptr[end];
       ptr[end] = 0;
       json_object *jobj = json_tokener_parse (&ptr[start]);
+
+      puts(&ptr[start]);
       
       if (json_object_object_get_ex (jobj, "tick", NULL))
 	{
+	  printf ("*");
+	  fflush (stdout);
 	  std::auto_ptr<TextMessage> message(session->createTextMessage(ptr));
 	  producer->send(message.get());
 	}
