@@ -6,9 +6,9 @@ services:
   - docker
 
 before_install:
-  - docker build -f Dockerfile.builder -t atgreen/greenfx-ticks-oanda-builder .
-  - docker run -t -v `pwd`:/opt atgreen/greenfx-ticks-oanda-builder
-  - docker build -f Dockerfile -t atgreen/greenfx-ticks-oanda .
+  - docker build -f Dockerfile.builder -t atgreen/greenfx-oanda-to-tickq-builder .
+  - docker run -t -v `pwd`:/opt atgreen/greenfx-oanda-to-tickq-builder
+  - docker build -f Dockerfile -t atgreen/greenfx-oanda-to-tickq .
 
 script:
 - 
@@ -16,6 +16,6 @@ script:
 after_success:
   - if [ "$TRAVIS_BRANCH" == "master" ]; then
     docker login -e="$DOCKER_EMAIL" -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD";
-    docker push atgreen/greenfx-ticks-oanda;
+    docker push atgreen/greenfx-oanda-to-tickq;
     fi
 

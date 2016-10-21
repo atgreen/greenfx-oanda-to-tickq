@@ -1,10 +1,10 @@
-bin_PROGRAMS = ticks-oanda
+bin_PROGRAMS = oanda-to-tickq
 
 # We ship the git tree around because it includes version info, and is
 # pretty small.
 EXTRA_DIST = .git
 
-ticks_oanda_CPPFLAGS = $(AMQ_CFLAGS)
+oanda_to_tickq_CPPFLAGS = $(AMQ_CFLAGS)
 
-ticks_oanda_LDADD = -lcurl $(AMQ_LIBS) -ljson-c
-ticks_oanda_SOURCES = main.cc
+oanda_to_tickq_LDADD = -lcurl $(AMQ_LIBS) -ljson-c
+oanda_to_tickq_SOURCES = main.cc

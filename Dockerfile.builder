@@ -13,6 +13,6 @@ CMD cd /opt && autoreconf --install && \
     ./configure && \
     make dist && \
     chown -R root.root * && \
-    mv greenfx-ticks-oanda-1.0.tar.gz /root/rpmbuild/SOURCES && \
-    rpmbuild -ba greenfx-ticks-oanda.spec && \
+    mv greenfx-oanda-to-tickq-1.0.tar.gz /root/rpmbuild/SOURCES && \
+    rpmbuild -ba greenfx-oanda-to-tickq.spec && \
     mv /root/rpmbuild/RPMS/x86_64/*.rpm /opt

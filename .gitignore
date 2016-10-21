@@ -16,11 +16,11 @@ config.log
 config.status
 configure
 depcomp
-greenfx-ticks-oanda-1.0.tar.gz
+greenfx-oanda-to-tickq-1.0.tar.gz
 install-sh
 missing
 stamp-h1
-ticks-oanda
-ticks-oanda.o
+oanda-to-tickq
+oanda-to-tickq.o
 compile
-ticks_oanda-main.o
+oanda_to_tickq-main.o
