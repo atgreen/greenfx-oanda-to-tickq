@@ -8,7 +8,7 @@ AC_DEFINE_UNQUOTED(GFX_VERSION_STR,
                    [A string containing the name and version number])
 
 AC_DEFINE_UNQUOTED(GFX_GIT_COMMIT_HASH,
-	           ["m4_esyscmd([git rev-parse HEAD | tr -d '\n'])"],
+	           ["m4_esyscmd([git rev-parse --short HEAD | tr -d '\n'])"],
 		   [A string representing the most recent git commit])
 
 AC_PROG_CC
