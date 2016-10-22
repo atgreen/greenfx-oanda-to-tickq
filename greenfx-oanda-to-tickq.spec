@@ -1,12 +1,12 @@
 Name:		greenfx-oanda-to-tickq
-Version:	1.0
-Release:	0.1
+Version:	1.%{_minor_version}
+Release:	1
 Summary:	Collect and publish ticks from Oanda
 
 Group:	        Applications
 License:	GPL
 URL:		http://github.com/atgreen/greenfx-oanda-to-tickq
-Source0:	greenfx-oanda-to-tickq-1.0.tar.gz
+Source0:	greenfx-oanda-to-tickq-1.%{_minor_version}.tar.gz
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires:  libcurl-devel activemq-cpp-devel json-c-devel
 
