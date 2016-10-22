@@ -9,9 +9,12 @@ RUN rpm -ivh http://dl.fedoraproject.org/pub/epel/7/x86_64/e/epel-release-7-8.no
       autoconf automake git && \
     mkdir -p /root/rpmbuild/SOURCES
 
-CMD cd /opt && autoreconf --install && \
+CMD cd /opt && \
     MINOR_VERSION=`git log | grep commit | wc -l` && \
-    perl -p -i -e 's/1\.0/1.$MINOR_VERSION/' configure.ac && \    		       
+    echo $MINOR_VERSION && \		       
+    perl -p -i -e 's/1\.0/1.$MINOR_VERSION/' configure.ac && \
+    cat configure.ac && \
+    autoreconf --install && \
     ./configure && \
     make dist && \
     chown -R root.root * && \
