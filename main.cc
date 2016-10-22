@@ -157,7 +157,7 @@ int main(void)
   Connection *connection;
   Destination *destination;
 
-  std::cout << GFX_VERSION_STR " Copyright (C) 2014, 2016  Anthony Green\n" << std::endl;
+  std::cout << GFX_VERSION_STR "  [git commit " GFX_GIT_COMMIT_HASH "]\nCopyright (C) 2014, 2016  Anthony Green\n" << std::endl;
 
   config();
   

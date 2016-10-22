@@ -11,9 +11,6 @@ RUN rpm -ivh http://dl.fedoraproject.org/pub/epel/7/x86_64/e/epel-release-7-8.no
 
 CMD cd /opt && \
     MINOR_VERSION=`git log | grep commit | wc -l` && \
-    echo $MINOR_VERSION && \		       
-    perl -p -i -e 's/1\.0/1.$MINOR_VERSION/' configure.ac && \
-    cat configure.ac && \
     autoreconf --install && \
     ./configure && \
     make dist && \
