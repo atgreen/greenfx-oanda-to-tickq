@@ -6,7 +6,7 @@ RUN rpm -ivh http://dl.fedoraproject.org/pub/epel/7/x86_64/e/epel-release-7-8.no
     yum -y install \
       rpm-build gcc-c++ gcc make patch \
       libcurl-devel activemq-cpp-devel json-c-devel \
-      autoconf automake ipa-client && \
+      autoconf automake git && \
     mkdir -p /root/rpmbuild/SOURCES
 
 CMD cd /opt && autoreconf --install && \
