@@ -4,12 +4,10 @@ MAINTAINER anthony@atgreen.org
 
 RUN rpm -ivh http://dl.fedoraproject.org/pub/epel/7/x86_64/e/epel-release-7-8.noarch.rpm
 ADD dist /tmp
-RUN echo "ls -l /tmp" && ls -l /tmp && \
-    echo "ls -l /tmp/dist" && ls -l /tmp/dist && \
-    yum install -y /tmp/dist/greenfx-oanda-to-tickq*x86_64.rpm && \
-    mv /tmp/dist/*.src.rpm /usr/share/greenfx-oanda-to-tickq && \
+RUN yum install -y /tmp/greenfx-oanda-to-tickq*x86_64.rpm && \
+    mv /tmp/*.src.rpm /usr/share/greenfx-oanda-to-tickq && \
     yum -y update && yum clean all && \
-    rm /tmp/dist
+    rm /tmp/*rpm
 
 USER greenfx
 CMD oanda-to-tickq
