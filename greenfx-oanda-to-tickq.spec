@@ -37,7 +37,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(-,root,root,-)
-%doc COPYING3
+%license COPYING3
 %{_bindir}/*
 
 %changelog
