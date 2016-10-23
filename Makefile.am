@@ -2,7 +2,7 @@ bin_PROGRAMS = oanda-to-tickq
 
 # We ship the git tree around because it includes version info, and is
 # pretty small.
-EXTRA_DIST = .git COPYING3
+EXTRA_DIST = .git COPYING3 README.md
 
 oanda_to_tickq_CPPFLAGS = $(AMQ_CFLAGS) -Wall -Wno-deprecated-declarations
 
