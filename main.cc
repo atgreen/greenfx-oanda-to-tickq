@@ -141,9 +141,7 @@ int main(void)
   CURLcode res;
   char authHeader[100];
   char url[100];
-  static char *domain;
-  static char *accessToken;
-  static char *accounts;
+  char *domain, *accessToken, *accounts;
 
   struct curl_slist *chunk = NULL;
 
