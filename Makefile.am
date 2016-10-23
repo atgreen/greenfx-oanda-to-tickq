@@ -4,7 +4,7 @@ bin_PROGRAMS = oanda-to-tickq
 # pretty small.
 EXTRA_DIST = .git
 
-oanda_to_tickq_CPPFLAGS = $(AMQ_CFLAGS)
+oanda_to_tickq_CPPFLAGS = $(AMQ_CFLAGS) -Wall -Wno-deprecated-declarations
 
 oanda_to_tickq_LDADD = -lcurl $(AMQ_LIBS) -ljson-c
 oanda_to_tickq_SOURCES = main.cc

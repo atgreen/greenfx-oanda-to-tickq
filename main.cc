@@ -8,7 +8,7 @@
 //
 // --------------------------------------------------------------------------
 
-// Copyright (C) 2014, 2016 Anthony Green <green@spindazzle.org>
+// Copyright (C) 2014, 2016 Anthony Green <anthony@atgreen.org>
 // Distrubuted under the terms of the GPL v3 or later.
 
 // This progam is responsible for publishing OANDA currency exchange
@@ -35,10 +35,6 @@ using namespace cms;
 using namespace std;
 
 #define AMQ_URL "tcp://broker-amq-tcp:61616?wireFormat=openwire"
-
-static char *domain;
-static char *accessToken;
-static char *accounts;
 
 static Session *session;
 static MessageProducer *producer;
@@ -139,19 +135,16 @@ char *getenv_checked (const char *e)
   return v;
 }
 
-void config()
-{
-  domain = getenv_checked ("OANDA_STREAM_DOMAIN");
-  accessToken = getenv_checked ("OANDA_ACCESS_TOKEN");
-  accounts = getenv_checked ("OANDA_ACCOUNT_ID");
-}
-
 int main(void)
 {
   CURL *curl_handle;
   CURLcode res;
   char authHeader[100];
   char url[100];
+  static char *domain;
+  static char *accessToken;
+  static char *accounts;
+
   struct curl_slist *chunk = NULL;
 
   Connection *connection;
@@ -159,7 +152,9 @@ int main(void)
 
   std::cout << GFX_VERSION_STR "  [git commit " GFX_GIT_COMMIT_HASH "]\nCopyright (C) 2014, 2016  Anthony Green\n" << std::endl;
 
-  config();
+  domain = getenv_checked ("OANDA_STREAM_DOMAIN");
+  accessToken = getenv_checked ("OANDA_ACCESS_TOKEN");
+  accounts = getenv_checked ("OANDA_ACCOUNT_ID");
   
   printf ("Program started by User %d\n", getuid());
 

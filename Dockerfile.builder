@@ -9,7 +9,7 @@ RUN rpm -ivh http://dl.fedoraproject.org/pub/epel/7/x86_64/e/epel-release-7-8.no
       autoconf automake git && \
     mkdir -p /root/rpmbuild/SOURCES
 
-CMD cd /opt && \
+CMD cd /opt && mkdir dist && \
     MINOR_VERSION=`git log | grep commit | wc -l` && \
     autoreconf --install && \
     ./configure && \
@@ -17,4 +17,6 @@ CMD cd /opt && \
     chown -R root.root * && \
     mv greenfx-oanda-to-tickq-1.$MINOR_VERSION.tar.gz /root/rpmbuild/SOURCES && \
     rpmbuild -ba --define "_minor_version $MINOR_VERSION" greenfx-oanda-to-tickq.spec && \
-    mv /root/rpmbuild/RPMS/x86_64/*.rpm /opt
+    mv /root/rpmbuild/RPMS/x86_64/*.rpm /opt/dist && \ 
+    mv /root/rpmbuild/SRPMS/*.rpm /opt/dist
+   
