@@ -19,5 +19,6 @@ CMD cd /opt && mkdir dist && \
     rpmbuild -ba --define "_minor_version $MINOR_VERSION" greenfx-oanda-to-tickq.spec && \
     echo "Successful Build.  Moving RPMs to /top/dist" && \
     mv /root/rpmbuild/RPMS/x86_64/*.rpm /opt/dist && \ 
+    rm -f dist/*debuginfo* && \
     mv /root/rpmbuild/SRPMS/*.rpm /opt/dist
    
