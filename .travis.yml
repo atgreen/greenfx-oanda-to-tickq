@@ -8,7 +8,7 @@ services:
 before_install:
   - docker build -f Dockerfile.builder -t atgreen/greenfx-oanda-to-tickq-builder .
   - docker run -t -v `pwd`:/opt atgreen/greenfx-oanda-to-tickq-builder
-  - rm dist/*debuginfo*
+  - rm -f dist/*debuginfo*
   - docker build -f Dockerfile -t atgreen/greenfx-oanda-to-tickq .
 
 script:
