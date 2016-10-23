@@ -19,7 +19,7 @@ documentation for details on how to set these.
 order to talk to `tickq`: `AMQ_USER` and `AMQ_PASSWORD`.
 
 As this program is intended to run as a microservice within an
-OpenShift/kubernetes hosted insrastructure, the hostname of the AM-Q
+OpenShift/kubernetes hosted infrastructure, the hostname of the AM-Q
 broker is hard coded as `broker-amq-tcp`.
 
 The currency pairs read by the `oanda-to-tickq` are currently
