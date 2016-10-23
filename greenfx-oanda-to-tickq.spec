@@ -38,6 +38,7 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %defattr(-,root,root,-)
 %license COPYING3
+%doc README.md
 %{_bindir}/*
 
 %changelog
